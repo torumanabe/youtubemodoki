@@ -60,7 +60,7 @@ export const InputContainer = ({
       if(newValue ===value){
         return;
       }
-      setvalue(newvalue);
+      setValue(newvalue);
       onChange(newValue);
     },
     defaultValue,
