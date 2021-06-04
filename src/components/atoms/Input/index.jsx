@@ -52,7 +52,7 @@ export const InputContainer = ({
   placeHolder,
   presenter,
 })=> {
-  consst [value, setValue] = useState(defaultValue);
+  const [value, setValue] = useState(defaultValue);
   return presenter({
     className,
     onChange:(e) => {
