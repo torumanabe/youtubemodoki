@@ -4,6 +4,7 @@ import VideosListTemplate from '~/components/templates/VideosListTemplate';
 import Header from '~/components/organisms/Header';
 import SearchForm from '~/components/organisms/SearchForm';
 import VideosList from '~/components/organisms/VideosList';
+import axios from 'axios';
 
 export const TopPagePresenter = ({
   search,
@@ -36,5 +37,83 @@ TopPagePresenter.defaultProps = {
   defaultKeyword: '',
 };
 
-// TODO コンテナー・コンポーネントはあとで実装する
-export default TopPagePresenter;
+const TopPageContainer = ({
+  api,
+  presenter,
+  defaultKeyword,
+}) => {
+  const {videos, setVideos} = useState([]);
+  const {nextPageToken, setNextPageToken} = useState(null);
+  const {keyword, setKeyword} = useState(defaultKeyword);
+  const {loading, setLoading} = useState(false);
+  const cleanedUp = useRef(false);
+  const getVideos = async(pageToken) => {
+  setLoading(true);
+  const {
+    data:{
+      items,
+      nextPageToken: newNextPageToken,
+    },
+  } = await api.search(keyword, {pageToken});
+  if(cleanedUp.current){
+    return;
+  }
+  let nextVideos;
+  if(pageToken){
+    const itemsWithoutDuplicated = items.filter(
+      ({id:itemId}) => !videos.find(({ id }) => id ===itemId),
+    );
+    nextVideos = videos.concaat(itemsWithoutDuplicated);
+    }else{
+      nextVideos = items;
+  }
+  setVideos(nextVideos);
+  setNextPageToken(newNextPageToken);
+  setLoading(false);
+};
+
+useEffect(() => {
+  setNextPageToken(undefined);
+  setVideos([]);
+  getVideos();
+},[keyword]);
+
+useEffect(() => (() => {
+  cleanedUp.current = true;
+}),[]);
+
+return presenter({
+  search: setKeyword,
+  searchNext:() => {
+    if(loading || !nextPageToken) {
+      return;
+    }
+    getVideos(nextPageToken);
+  },
+  defaultKeyword,
+  videos,
+  loading,
+});
+};
+
+TopPageContainer.propTypes = {
+  api:PropTypes.shape({
+    search:PropTypes.func,
+  }),
+  defaultKeyword:PropTypes.string,
+  presenter:PropTypes.func.isRequired,
+};
+
+TopPageContainer.defaultProps = {
+  api: {
+    search:(keyword,params) => axios.get(`/api/videos/search/${keyword}`, {params}),
+  },
+  defaultKeywoerd:'ねこ',
+};
+
+export default (props) => (
+  <TopPageContainer
+  presenter = {TopPagePresenter}
+  {...props}
+  />
+);
