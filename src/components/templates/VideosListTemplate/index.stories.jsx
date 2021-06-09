@@ -1,38 +1,63 @@
 import React from 'react';
-import { actions } from '@storybook/addon-actions';
-import styled, { css } from 'styled-components';
-import VideosListTemplate from '.';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import useOnScrollEnd from '~/utils/useOnScrollEnd';
 
-export default { title: 'templates/VideosListTemplate' };
-
-const commonStyle = css`
-  background: #f0f0f0;
-  text-align: center;
-`;
-
-const Header = styled.div`
+const Root = styled.div`
   width: 100%;
-  height: 33px;
-  ${commonStyle};
+  height: 100%;
 `;
 
-const SearchForm = styled.div`
-  width: 100%;
-  height: 47px;
-  ${commonStyle};
+const HeaderWrapper = styled.div`
+  max-width: 720px;
+  margin: auto;
+  border-bottom: 1px solid #ccc;
 `;
 
-const VideosList = styled.div`
-  width: 100%;
-  height: 1000px;
-  ${commonStyle};
+const SearchFormWrapper = styled.div`
+  max-width: 720px;
+  margin: auto;
 `;
 
-export const Default = () => (
-  <VideosListTemplate
-    headerContents={<Header>header</Header>}
-    searchFormContents={<SearchForm>searchForm</SearchForm>}
-    videosListContents={<VideosList>videosList</VideosList>}
-    {...actions('onScrollEnd')}
-  />
-);
+const VideosListWrapper = styled.div`
+  max-width: 720px;
+  margin: auto;
+`;
+
+const VideosListTemplate = ({
+  headerContents,
+  searchFormContents,
+  videosListContents,
+  onScrollEnd,
+}) => {
+  // 修正する
+  useOnScrollEnd(onScrollEnd);
+  return (
+    <Root>
+      <HeaderWrapper>
+        {headerContents}
+      </HeaderWrapper>
+      <SearchFormWrapper>
+        {searchFormContents}
+      </SearchFormWrapper>
+      <VideosListWrapper>
+        {videosListContents}
+      </VideosListWrapper>
+    </Root>
+  );
+};
+
+VideosListTemplate.propTypes = {
+  headerContents: PropTypes.node,
+  searchFormContents: PropTypes.node,
+  videosListContents: PropTypes.node.isRequired,
+  onScrollEnd: PropTypes.func,
+};
+
+VideosListTemplate.defaultProps = {
+  headerContents: null,
+  searchFormContents: null,
+  onScrollEnd: null,
+};
+
+export default VideosListTemplate;
