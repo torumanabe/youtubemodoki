@@ -32,11 +32,10 @@ const PlayerWrapper = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 10px;
-  // 幅にあわせて高さもレスポンシブになるようにpadding-bottomので高さを設定
   padding-bottom: 56.25%;
-    height: 0px;
-    position: relative;
-    width: 100%;
+  height: 0px;
+  position: relative;
+  width: 100%;
 `;
 
 const VideoInfoWrapper = styled.div`
