@@ -70,7 +70,6 @@ const TopPageContainer = ({
     }
     let nextVideos;
     if (pageToken) {
-      // 重複を取り除く
       const itemsWithoutDuplicated = items.filter(
         ({ id: itemId }) => !videos.find(({ id }) => id === itemId),
       );

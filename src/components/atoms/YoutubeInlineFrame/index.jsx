@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const InlineFrame = styled.iframe`
-  // 親要素にあわせてサイズ調整できるようにしている
   position: absolute;
   top: 0;
   right: 0;

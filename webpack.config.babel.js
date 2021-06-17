@@ -1,5 +1,4 @@
 import path from 'path';
-import {ignorePlugin} from 'ewbpack';
 import { IgnorePlugin } from 'webpack';
 
 export default (env,args) => {

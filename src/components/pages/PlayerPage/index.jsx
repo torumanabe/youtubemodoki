@@ -39,7 +39,7 @@ export const PlayerPagePresenter = ({
 
 PlayerPagePresenter.propTypes= {
   videoId: PropTypes.string.isRequired,
-  relatedVideos:PropTypes.arrayOf(propTypess.shape({})),
+  relatedVideos:PropTypes.arrayOf(PropTypes.shape({})),
   loadingRelatedVideos:PropTypes.bool,
   videoData:PropTypes.shape({}),
   onScrollEnd:PropTypes.func,
@@ -71,7 +71,9 @@ export const PlayerPageContainer =({
         nextPageToken: newNextPageToken,
       },
     } = await api.getRelatedVideos(videoId, nextPageToken);
-    setRelatedVideosVideos(false);
+
+    setLoadingRelatedsVideos(false);
+
     setRelatedVideos(RelatedVIdeos.concat(video.filter(
       ({id:itemId}) => !relatedVideos.find(({id}) => id === itemId),
     )));
@@ -91,14 +93,14 @@ export const PlayerPageContainer =({
   });
 };
 
-PalyerPageContainer.propTypes = {
+PlayerPageContainer.propTypes = {
   api:PropTypes.shape({
     getRelatedVideos:PropTypes.func,
     getVideoData: PropTypes.func,
   }),
 };
 
-PlayerPageCOntainer.deffaultProps = {
+PlayerPageContainer.defaultProps = {
   api: {
     getVideoData:(videoId) => axios.get(`/api/videos/${videoId}`),
     getRelatedVideos:(videoId,pageToken ='') => axios.get(`api/videos/${videoId}/related?pageToken=${pageToken}`),
