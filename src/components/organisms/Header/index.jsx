@@ -7,20 +7,20 @@ const Root = styled.div`
   width: 100%;
   `;
 
-  const Header = ({ className}) => (
-    <Root className={className}>
-      <Typography size="title" color="red" align="center">
-        YouTubeViewer
-      </Typography>
-    </Root>
-  );
+const Header = ({ className }) => (
+  <Root className={className}>
+    <Typography size="title" color="red" align="center">
+      YouTubeViewer
+    </Typography>
+  </Root>
+);
 
-  Header.propTypes = {
-    className:PropTypes.string,
-  };
+Header.propTypes = {
+  className: PropTypes.string,
+};
 
 Header.defaultProps = {
-  class:'',
+  class: '',
 };
 
 export default Header;

@@ -16,7 +16,7 @@ colorVariation.story = {
   name: 'color',
 };
 
-export const sizeVariation = () => sizes.map((s) =>(
+export const sizeVariation = () => sizes.map((s) => (
   <Typography key={s} size={s}>
     {s}
     .
@@ -24,7 +24,7 @@ export const sizeVariation = () => sizes.map((s) =>(
   </Typography>
 ));
 sizeVariation.story = {
-  name:'size',
+  name: 'size',
 };
 
 export const bold = () => sizes.map((s) => (
@@ -37,16 +37,16 @@ export const bold = () => sizes.map((s) => (
 
 export const displayBlock = () => (
   <>
-    <Typography display ="block">
+    <Typography display="block">
       {sampleText}
     </Typography>
-    <Typography display ="block">
+    <Typography display="block">
       {sampleText}
     </Typography>
   </>
 );
 displayBlock.story = {
-  name:`display="block"`,
+  name: 'display="block"',
 };
 
 export const displayInline = () => (

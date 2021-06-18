@@ -51,7 +51,7 @@ export const VideoInfoPresenter = ({
       </PaperButton>
     </Root>
   );
-}
+};
 
 VideoInfoPresenter.propTypes = {
   title: PropTypes.string.isRequired,

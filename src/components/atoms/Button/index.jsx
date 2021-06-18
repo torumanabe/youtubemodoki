@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components';
 export const sizes = ['s', 'm', 'l'];
 
 const Root = styled.button`
-${({fullWidth}) => fullWidth && css `width:100%`};
+${({ fullWidth }) => fullWidth && css`width:100%`};
 appearance:none;
 border:0;
 border-radious: 4px;
@@ -19,25 +19,25 @@ cursor: pointer;
   box-shadow: 0 0 0 4px #cbd6ee;
 }
 transition:background-color.1s linear;
-${( { size }) => {
-  switch(size) {
-    case 's':
-      return css`
+${({ size }) => {
+    switch (size) {
+      case 's':
+        return css`
       font-size: 12px;
       padding: 6px 12px;
       `;
-    case 'l':
-      return css`
+      case 'l':
+        return css`
             font-size: 18px;
             padding: 10px 18px;
         `;
-    default:
-      return css`
+      default:
+        return css`
         font-size: 16px;
         padding: 6px 16px;
       `;
-  }
-}};
+    }
+  }};
 `;
 
 const Button = ({
@@ -49,29 +49,29 @@ const Button = ({
   onClick,
 }) => (
   <Root
-  clssName={className}
-  type={type}
-  size={size}
-  fullWidth={fullWidth}
-  onClick={onClick}
+    clssName={className}
+    type={type}
+    size={size}
+    fullWidth={fullWidth}
+    onClick={onClick}
   >
-  {children}
+    {children}
   </Root>
 );
 
 Button.propTypes = {
-  className:PropTypes.string,
-  children:PropTypes.node.isRequired,
-  type:PropTypes.string,
-  size:PropTypes.oneOf(sizes),
-  fullWidth:PropTypes.bool,
-  onClick:PropTypes.func,
+  className: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  type: PropTypes.string,
+  size: PropTypes.oneOf(sizes),
+  fullWidth: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 Button.defaultProps = {
-  className: ``,
-  type: `button`,
-  size: `m`,
+  className: '',
+  type: 'button',
+  size: 'm',
   fullWidth: false,
   onClick: null,
 };

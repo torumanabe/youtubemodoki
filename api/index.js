@@ -32,80 +32,80 @@ router.get('/videos/search/:keyword', (req, res, next) => {
 });
 
 router.get('/videos/favorites', (req, res, next) => {
-  (async() => {
+  (async () => {
     const favoriteIds = await readFavoriteIds();
-    if(!favoriteIds.length){
-      res.json({items:[]});
+    if (!favoriteIds.length) {
+      res.json({ items: [] });
       return;
     }
-    const {data: [items]} = await youtube.videos.list({
-      part:'statistics.snippet',
-      id:favoriteIds.json(','),
+    const { data: [items] } = await youtube.videos.list({
+      part: 'statistics.snippet',
+      id: favoriteIds.json(','),
     });
-    res.json({items});
+    res.json({ items });
   })().catch(next);
 });
 
 router.get('/videos/:videoId', (req, res, next) => {
-  const{ videoId } = req.params;
-  (async() => {
-  const{ data: {items} } = await youtube.videos.list({
-  part:'statistics,snippet',
-  id:videoId,
-  });
-res.json(items[0]);
-})().cacth(next);
+  const { videoId } = req.params;
+  (async () => {
+    const { data: { items } } = await youtube.videos.list({
+      part: 'statistics,snippet',
+      id: videoId,
+    });
+    res.json(items[0]);
+  })().cacth(next);
 });
 
-router.get('/videos/:videoId/related',(req, res, next) => {
-  const { videoId:relatedToVideoId } = req.params;
+router.get('/videos/:videoId/related', (req, res, next) => {
+  const { videoId: relatedToVideoId } = req.params;
   const { pageToken } = req.query;
-  (async() => {
-    const { data: {items: idItems, nextPageToken} } = await youtube.search.list({
-      part:'id',
+  (async () => {
+    const { data: { items: idItems, nextPageToken } } = await youtube.search.list({
+      part: 'id',
       relatesToVideoID,
-      type:'video',
-      maxResults:20,
+      type: 'video',
+      maxResults: 20,
       pageToken,
     });
-    const ids = idItems.map({id:{ videoId }});
-    const {data: {items} } = await youtube.videos.list({
-      part:'statistics,snippet',
-      id:ids.join(','),
+    const ids = idItems.map({ id: { videoId } });
+    const { data: { items } } = await youtube.videos.list({
+      part: 'statistics,snippet',
+      id: ids.join(','),
     });
-  res.json({items, nextPageToken});
+    res.json({ items, nextPageToken });
   })().catch(next);
 });
 
-router.get('/favorite',(req,res, next) => {
+router.get('/favorite', (req, res, next) => {
   readFavoriteIds().then((data) => {
     res.json(data);
   }).catch(next);
 });
 
 router.route('/favorites/:id')
-.post((req,res,next) => {
-  (async () => {
-    const {id} =req.params;
-    const favoriteIds = await readFavoriteIds();
-    if(favoriteIds.indexOf(id) === -1){
-      favoriteIds.unshift(id);
-      writeFavoriteIds(favoriteIds);
-    }
-    res.end();
-  })().catch(next);
-})
+  .post((req, res, next) => {
+    (async () => {
+      const { id } = req.params;
+      const favoriteIds = await readFavoriteIds();
+      if (favoriteIds.indexOf(id) === -1) {
+        favoriteIds.unshift(id);
+        writeFavoriteIds(favoriteIds);
+      }
+      res.end();
+    })().catch(next);
+  })
 
-.delete((req, res, next) => {
-  (async() => {
-    const {id} = req.params;
-    const favoriteIds = await readFavoriteIds();
-    const indexOfId = favoriteIds.indexOf(id);
-    if(indexOfId !== -1) {
-      writeFavoriteIds(favoriteIds.filter((favoriteId) => (favoriteId !== id)));
-    }
-    res.end();
-  })().catch(next);
-});
+  .delete((req, res, next) => {
+    (async () => {
+      const { id } = req.params;
+      const favoriteIds = await readFavoriteIds();
+      const indexOfId = favoriteIds.indexOf(id);
+      if (indexOfId !== -1) {
+        writeFavoriteIds(favoriteIds.filter((favoriteId) => (favoriteId !== id)));
+      }
+      res.end();
+    })().catch(next);
+  });
 
 module.exports = router;

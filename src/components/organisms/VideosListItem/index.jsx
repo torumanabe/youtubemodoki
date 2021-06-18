@@ -53,12 +53,12 @@ const VideosListItemPresenter = ({
   description,
   viewCount,
 }) => (
-  <Root className= {className} onclick={onClick}>
+  <Root className={className} onclick={onClick}>
     <Thumbnail>
-      <Image src ={thumbnailUrl} alt = {title}/>
+      <Image src={thumbnailUrl} alt={title} />
     </Thumbnail>
     <InfoWrapper>
-      <Typography size="subtitle" bold display= "inline-block">{title}</Typography>
+      <Typography size="subtitle" bold display="inline-block">{title}</Typography>
       <Description>{description}</Description>
       <ViewCount size="xs" color="gray">
         {viewCount}
@@ -70,32 +70,32 @@ const VideosListItemPresenter = ({
 
 VideosListItemPresenter.propTypes = {
   className: PropTypes.string,
-  onClick:PropTypes.func,
-  thumbnailUrl:PropTypes.string.isRequired,
-  title:PropTypes.string.isRequired,
-  description:PropTypes.string.isRequired,
-  viewCount:PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  thumbnailUrl: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  viewCount: PropTypes.string.isRequired,
 };
 
 VideosListItemPresenter.defaultProps = {
-  className:'',
-  onClick:null,
+  className: '',
+  onClick: null,
 };
 
 const VideosListItemContainer = ({
   className,
-  video:{
+  video: {
     id,
-    snippet:{
+    snippet: {
       title,
       description,
-      thumbnails:{
-        medium:{
-          url:thumbnailUrl,
+      thumbnails: {
+        medium: {
+          url: thumbnailUrl,
         },
       },
     },
-    statistics:{
+    statistics: {
       viewCount,
     },
   },
@@ -104,7 +104,7 @@ const VideosListItemContainer = ({
   const histry = useHistory();
   return presenter({
     className,
-    onClick:() => {
+    onClick: () => {
       history.push(`/play/${id}`);
     },
     title,
@@ -134,12 +134,12 @@ VideosListItemContainer.propTypes = {
 };
 
 VideosListItemContainer.defaultProps = {
-  className:'',
+  className: '',
 };
 
 export default (props) => (
   <VideosListItemContainer
-  presenter={VideosListItemPresenter}
-  {...props}
+    presenter={VideosListItemPresenter}
+    {...props}
   />
 );

@@ -22,27 +22,27 @@ export const InputPresenter = ({
   onChange,
   defaultValue,
   placeHolder,
-})=>(
+}) => (
   <Root
-  className= {className}
-  defaultValue={defaultValue}
-  onChange= {onChange}
-  placeHolder={placeHolder}
+    className={className}
+    defaultValue={defaultValue}
+    onChange={onChange}
+    placeHolder={placeHolder}
   />
 );
 
 InputPresenter.propTypes = {
-  className:PropTypes.string,
-  onChange:PropTypes.func,
-  defaultValue:PropTypes.string,
-  placeHolder:PropTypes.string,
+  className: PropTypes.string,
+  onChange: PropTypes.func,
+  defaultValue: PropTypes.string,
+  placeHolder: PropTypes.string,
 };
 
 InputPresenter.defaultProps = {
-  className:'',
-  onChange:null,
-  defaultValue:'',
-  placeHolder:'',
+  className: '',
+  onChange: null,
+  defaultValue: '',
+  placeHolder: '',
 };
 
 export const InputContainer = ({
@@ -51,13 +51,13 @@ export const InputContainer = ({
   defaultValue,
   placeHolder,
   presenter,
-})=> {
+}) => {
   const [value, setValue] = useState(defaultValue);
   return presenter({
     className,
-    onChange:(e) => {
-      const {value:newValue} = e.target;
-      if(newValue ===value){
+    onChange: (e) => {
+      const { value: newValue } = e.target;
+      if (newValue === value) {
         return;
       }
       setValue(newvalue);
@@ -69,22 +69,22 @@ export const InputContainer = ({
 };
 
 InputContainer.propTypes = {
-  className:PropTypes.string,
-  onChange:PropTypes.func,
-  defaultValue:PropTypes.string,
-  placeHolder:PropTypes.string,
+  className: PropTypes.string,
+  onChange: PropTypes.func,
+  defaultValue: PropTypes.string,
+  placeHolder: PropTypes.string,
 };
 
 InputContainer.defaultProps = {
-  className:'',
-  onChange:null,
-  defaultValue:'',
-  placeHolder:'',
+  className: '',
+  onChange: null,
+  defaultValue: '',
+  placeHolder: '',
 };
 
 export default (props) => (
   <InputContainer
-  presenter= {InputPresenter}
-  {...props}
+    presenter={InputPresenter}
+    {...props}
   />
 );

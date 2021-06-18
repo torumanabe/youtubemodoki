@@ -1,4 +1,4 @@
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const loopSpinKeyFrame = keyframes`
   0% {
@@ -9,9 +9,9 @@ const loopSpinKeyFrame = keyframes`
   }
   `;
 
-  const size = '24px';
+const size = '24px';
 
-  export default styled.span`
+export default styled.span`
   position: absolute;
   top: 0;
   left: 0;

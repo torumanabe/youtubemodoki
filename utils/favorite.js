@@ -4,11 +4,11 @@ const FAVORITE_IDS_FILE = './favoriteIds.json';
 
 module.exports.readFavoriteIds = () => new Promise((resolve, reject) => {
   fs.readFile(FAVORITE_IDS_FILE, 'utf-8', (err, data) => {
-    if(err) {
+    if (err) {
       reject(err);
       return;
     }
-    resolve(data? JSON.parse(data) :[]);
+    resolve(data ? JSON.parse(data) : []);
   });
 });
 
