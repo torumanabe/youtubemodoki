@@ -25,9 +25,9 @@ const PaperButton = ({
   onClick,
 }) => (
   <Root
-  className= {className}
-  type = {type}
-  onClick = {onClick}
+    className={className}
+    type={type}
+    onClick={onClick}
   >
     {children}
   </Root>

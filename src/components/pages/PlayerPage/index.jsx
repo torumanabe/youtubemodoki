@@ -24,65 +24,80 @@ export const PlayerPagePresenter = ({
   onScrollEnd,
 }) => (
   <VideosListTemplate
-  headerContents={ <Header />}
-  playContent= {<YouTubeInlineFrame videoId={videoId}/>}
-  videoInfoContents= {videoData && <VideoInfo item={videoData} />}
-  relatedVideosLIstContents={(
-    <recommendVideoWrapper>
-      <Typography variant="subtitle" bold>関連動画</Typography>
-      <VideosList Video={relatedVideos} loading={loadingRelatedVideos} />
-    </recommendVideoWrapper>
-  )}
-  onScrollEnd={onScrollEnd}
+    headerContents={<Header />}
+    playerContents={<YouTubeInlineFrame videoId={videoId} />}
+    videoInfoContents={videoData && <VideoInfo item={videoData} />}
+    relatedVideosListContents={(
+      <RecommendVideosWrapper>
+        <Typography variant="subtitle" bold>関連動画</Typography>
+        <VideosList videos={relatedVideos} loading={loadingRelatedVideos} />
+      </RecommendVideosWrapper>
+    )}
+    onScrollEnd={onScrollEnd}
   />
 );
 
-PlayerPagePresenter.propTypes= {
+PlayerPagePresenter.propTypes = {
   videoId: PropTypes.string.isRequired,
-  relatedVideos:PropTypes.arrayOf(PropTypes.shape({})),
-  loadingRelatedVideos:PropTypes.bool,
-  videoData:PropTypes.shape({}),
-  onScrollEnd:PropTypes.func,
+  relatedVideos: PropTypes.arrayOf(PropTypes.shape({})),
+  loadingRelatedVideos: PropTypes.bool,
+  videoData: PropTypes.shape({}),
+  onScrollEnd: PropTypes.func,
 };
 
-export const PlayerPageContainer =({
+PlayerPagePresenter.defaultProps = {
+  relatedVideos: [],
+  loadingRelatedVideos: false,
+  videoData: null,
+  onScrollEnd: null,
+};
+
+export const PlayerPageContainer = ({
   api,
   presenter,
 }) => {
   const { videoId } = useParams();
-  const { videoData, setRelatedVideos } = useState(null);
-  const {loadingRelatedVideos, setLoadingRelatedVideos} = useState(false);
-  const {nextPageToken,setNextPageToken} =useState('');
+  const [videoData, setVideoData] = useState(null);
+  const [relatedVideos, setRelatedVideos] = useState([]);
+  const [loadingRelatedVideos, setLoadingRelatedVideos] = useState(false);
+  const [nextPageToken, setNextPageToken] = useState('');
 
+  // 動画の詳細情報取得
   const getVideoData = async () => {
     const { data } = await api.getVideoData(videoId);
     setVideoData(data);
   };
 
+  // 関連動画の取得
   const getRelatedVideos = async () => {
-    if(loadingRelatedVideos) {
+    if (loadingRelatedVideos) {
+      // 関連動画読み込み中であれば何もしない
       return;
     }
+    // 関連動画読み込み中のフラグをtrueにする
     setLoadingRelatedVideos(true);
-
-    const{
-      data:{
-        items:videos,
+    // APIから関連動画を取得
+    const {
+      data: {
+        items: videos,
+        // 前回関連動画を読み込んだ時に、nextPageTokenが返ってきていればそれを設定して続きから取得する
         nextPageToken: newNextPageToken,
       },
     } = await api.getRelatedVideos(videoId, nextPageToken);
-
-    setLoadingRelatedsVideos(false);
-
-    setRelatedVideos(RelatedVIdeos.concat(video.filter(
-      ({id:itemId}) => !relatedVideos.find(({id}) => id === itemId),
+    // 関連動画読み込み中のフラグをfalseにする
+    setLoadingRelatedVideos(false);
+    // 重複を削除して既に取得済みのものと結合してセット
+    setRelatedVideos(relatedVideos.concat(videos.filter(
+      ({ id: itemId }) => !relatedVideos.find(({ id }) => id === itemId),
     )));
+    // 続きを取得するためのnextPageTokenを覚えておく
     setNextPageToken(newNextPageToken);
   };
+
   useEffect(() => {
     getVideoData();
     getRelatedVideos();
-  },[videoId]);
+  }, [videoId]);
 
   return presenter({
     videoId,
@@ -94,22 +109,22 @@ export const PlayerPageContainer =({
 };
 
 PlayerPageContainer.propTypes = {
-  api:PropTypes.shape({
-    getRelatedVideos:PropTypes.func,
+  api: PropTypes.shape({
+    getRelatedVideos: PropTypes.func,
     getVideoData: PropTypes.func,
   }),
 };
 
 PlayerPageContainer.defaultProps = {
   api: {
-    getVideoData:(videoId) => axios.get(`/api/videos/${videoId}`),
-    getRelatedVideos:(videoId,pageToken ='') => axios.get(`api/videos/${videoId}/related?pageToken=${pageToken}`),
+    getVideoData: (videoId) => axios.get(`/api/videos/${videoId}`),
+    getRelatedVideos: (videoId, pageToken = '') => axios.get(`/api/videos/${videoId}/related?pageToken=${pageToken}`),
   },
 };
 
 export default (props) => (
   <PlayerPageContainer
-  presenter={PlayerPagePresenter}
-  {...props}
+    presenter={PlayerPagePresenter}
+    {...props}
   />
 );

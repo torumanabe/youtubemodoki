@@ -33,7 +33,7 @@ export const VideoInfoPresenter = ({
   viewCount,
 }) => {
   const [showAllDescription, setShowAllDescription] = useState(false);
-  return(
+  return (
     <Root>
       <Title size="subtitle" bold>{title}</Title>
       <Typography size="xs" color="gray">
@@ -47,14 +47,13 @@ export const VideoInfoPresenter = ({
       <PaperButton
         onClick={() => setShowAllDescription(!showAllDescription)}
       >
-        {showAllDescription? '一部を表示': 'もっと見る'}
+        {showAllDescription ? '一部を表示' : 'もっと見る'}
       </PaperButton>
     </Root>
   );
- }
+}
 
-
- VideoInfoPresenter.propTypes = {
+VideoInfoPresenter.propTypes = {
   title: PropTypes.string.isRequired,
   viewCount: PropTypes.string.isRequired,
   publishedAt: PropTypes.string.isRequired,
