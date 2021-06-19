@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Typography from '~/components/atoms/Typography';
 import useOnScrollEnd from '~/utils/useOnScrollEnd';
 
 const Root = styled.div`
@@ -30,7 +31,6 @@ const VideosListTemplate = ({
   videosListContents,
   onScrollEnd,
 }) => {
-  // 修正する
   useOnScrollEnd(onScrollEnd);
   return (
     <Root>

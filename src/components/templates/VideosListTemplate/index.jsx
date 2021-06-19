@@ -16,6 +16,11 @@ const HeaderWrapper = styled.div`
   border-bottom: 1px solid #ccc;
 `;
 
+const TitleWrapper = styled.div`
+  max-width: 720px;
+  margin: auto;
+`;
+
 const FlexWrapper = styled.div`
   display: flex;
   max-width: 1200px;
@@ -56,6 +61,7 @@ const SideContents = styled.div`
 
 const VideosListTemplate = ({
   headerContents,
+  titleContents,
   playerContents,
   videoInfoContents,
   relatedVideosListContents,
@@ -67,6 +73,9 @@ const VideosListTemplate = ({
       <HeaderWrapper>
         {headerContents}
       </HeaderWrapper>
+      <TitleWrapper>
+        {titleContents}
+      </TitleWrapper>
       <FlexWrapper>
         <MainContents>
           <PlayerWrapper>
@@ -86,6 +95,7 @@ const VideosListTemplate = ({
 
 VideosListTemplate.propTypes = {
   headerContents: PropTypes.node,
+  titleContents: PropTypes.node,
   playerContents: PropTypes.node.isRequired,
   videoInfoContents: PropTypes.node,
   relatedVideosListContents: PropTypes.node,
@@ -94,6 +104,7 @@ VideosListTemplate.propTypes = {
 
 VideosListTemplate.defaultProps = {
   headerContents: null,
+  titleContents: null,
   videoInfoContents: null,
   relatedVideosListContents: null,
   onScrollEnd: null,
